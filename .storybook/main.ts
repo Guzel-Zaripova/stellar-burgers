@@ -16,6 +16,7 @@ const config: StorybookConfig = {
           '@pages': path.resolve(__dirname, '../src/pages'),
           '@components': path.resolve(__dirname, '../src/components'),
           '@ui': path.resolve(__dirname, '../src/components/ui'),
+          '@utils-cookie': path.resolve(__dirname, './src/utils/cookie'),
           '@ui-pages': path.resolve(__dirname, '../src/components/ui/pages'),
           '@utils-types': path.resolve(__dirname, '../src/utils/types'),
           '@api': path.resolve(__dirname, '../src/utils/burger-api.ts'),
