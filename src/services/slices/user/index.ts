@@ -1,1 +1,9 @@
-export { userSlice, selectUser, loginUser, registerUser } from './user-slice';
+export {
+  userSlice,
+  selectUser,
+  selectIsAuthChecked,
+  loginUser,
+  registerUser,
+  authChecked,
+  checkUserAuth
+} from './user-slice';

@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import {
   ConstructorPage,
   Feed,
@@ -15,22 +15,34 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, Modal, ProtectedRoute } from '@components';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'src/services/store';
+import { checkUserAuth, fetchIngredients } from '@slices';
 
 const App = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const backgroundLocation = location.state?.backgroundLocation;
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   const handleModalClose = () => navigate(-1);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isPublic>
               <Login />
             </ProtectedRoute>
           }
@@ -38,7 +50,7 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isPublic>
               <Register />
             </ProtectedRoute>
           }
@@ -46,7 +58,7 @@ const App = () => {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isPublic>
               <ForgotPassword />
             </ProtectedRoute>
           }
@@ -54,7 +66,7 @@ const App = () => {
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isPublic>
               <ResetPassword />
             </ProtectedRoute>
           }
@@ -76,34 +88,38 @@ const App = () => {
           }
         />
         <Route path='*' element={<NotFound404 />} />
+      </Routes>
 
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal title={'Детали заказа'} onClose={handleModalClose}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <ProtectedRoute>
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/feed/:number'
+            element={
               <Modal title={'Детали заказа'} onClose={handleModalClose}>
                 <OrderInfo />
               </Modal>
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <ProtectedRoute>
+                <Modal title={'Детали заказа'} onClose={handleModalClose}>
+                  <OrderInfo />
+                </Modal>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
 import { USER_SLICE_NAME } from '../sliceNames';
 import { TUser } from '@utils-types';
-import { deleteCookie, setCookie } from '@utils-cookie';
+import { deleteCookie, getCookie, setCookie } from '@utils-cookie';
 import {
   getUserApi,
   loginUserApi,
@@ -11,18 +11,17 @@ import {
   TRegisterData,
   updateUserApi
 } from '@api';
+import { AppDispatch } from 'src/services/store';
 
 interface UserState {
   isInit: boolean;
   user: TUser | null;
-  isLoading: boolean;
   error: string | null;
 }
 
 const initialState: UserState = {
   isInit: false,
   user: null,
-  isLoading: false,
   error: null
 };
 
@@ -56,6 +55,16 @@ export const getUser = createAsyncThunk(
   async () => await getUserApi()
 );
 
+export const checkUserAuth = () => (dispatch: AppDispatch) => {
+  if (getCookie('accessToken')) {
+    dispatch(getUser()).finally(() => {
+      dispatch(authChecked());
+    });
+  } else {
+    dispatch(authChecked());
+  }
+};
+
 export const logoutUser = createAsyncThunk(
   `${USER_SLICE_NAME}/logoutUser`,
   async () => {
@@ -69,82 +78,73 @@ export const logoutUser = createAsyncThunk(
 export const userSlice = createSlice({
   name: USER_SLICE_NAME,
   initialState,
-  reducers: {},
+  reducers: {
+    authChecked: (state) => {
+      state.isInit = true;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
       state.isInit = false;
-      state.isLoading = true;
       state.error = null;
     });
     builder.addCase(registerUser.fulfilled, (state, { payload }) => {
       state.isInit = true;
       state.user = payload.user;
-      state.isLoading = false;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
-      state.isLoading = false;
       state.error = action.error.message as string;
     });
 
     builder.addCase(loginUser.pending, (state) => {
       state.isInit = false;
-      state.isLoading = true;
       state.error = null;
     });
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
       state.isInit = true;
       state.user = payload.user;
-      state.isLoading = false;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
-      state.isLoading = false;
       state.error = action.error.message as string;
     });
 
     builder.addCase(updateUser.pending, (state) => {
-      state.isLoading = true;
       state.error = null;
     });
     builder.addCase(updateUser.fulfilled, (state, { payload }) => {
       state.user = payload.user;
-      state.isLoading = false;
     });
     builder.addCase(updateUser.rejected, (state, action) => {
-      state.isLoading = false;
       state.error = action.error.message as string;
     });
 
     builder.addCase(getUser.pending, (state) => {
-      state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(getUser.fulfilled, (state, { payload }) => {
-      state.isInit = true;
       state.user = payload.user;
-      state.isLoading = false;
     });
     builder.addCase(getUser.rejected, (state, action) => {
-      state.isLoading = false;
       state.error = action.error.message as string;
     });
 
     builder.addCase(logoutUser.pending, (state) => {
       state.isInit = false;
-      state.isLoading = true;
       state.error = null;
     });
     builder.addCase(logoutUser.fulfilled, (state) => {
       state.isInit = false;
       state.user = null;
-      state.isLoading = false;
     });
     builder.addCase(logoutUser.rejected, (state, action) => {
-      state.isLoading = false;
       state.error = action.error.message as string;
     });
   },
   selectors: {
-    selectUser: (state) => state.user
+    selectUser: (state) => state.user,
+    selectIsAuthChecked: (state) => state.isInit
   }
 });
 
-export const { selectUser } = userSlice.selectors;
+export const { selectUser, selectIsAuthChecked } = userSlice.selectors;
+export const { authChecked } = userSlice.actions;
