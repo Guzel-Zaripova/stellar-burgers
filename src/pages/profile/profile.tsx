@@ -49,8 +49,6 @@ export const Profile: FC = () => {
     }));
   };
 
-  console.log('мой юзер' + user);
-
   return (
     <ProfileUI
       formValue={formValue}
