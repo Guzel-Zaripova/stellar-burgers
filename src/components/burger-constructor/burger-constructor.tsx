@@ -3,23 +3,51 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from 'src/services/store';
-import { BurgerConstructorSelectors } from '@slices';
+import {
+  BurgerConstructorSelectors,
+  orderBurger,
+  resetOrder,
+  resetConstructor,
+  selectOrderModalData,
+  selectOrderRequest,
+  selectUser
+} from '@slices';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const constructorItems = {
     bun: useSelector(BurgerConstructorSelectors.selectBun),
     ingredients: useSelector(BurgerConstructorSelectors.selectIngredients)
   };
-
-  const orderRequest = false;
-  const orderModalData = null;
+  const orderRequest = useSelector(selectOrderRequest);
+  const orderModalData = useSelector(selectOrderModalData);
+  const user = useSelector(selectUser);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    const bunById = constructorItems.bun._id;
+    const ingredientsById = constructorItems.ingredients.map(
+      (item) => item._id
+    );
+    const order = [bunById, ...ingredientsById, bunById];
+
+    if (!user) {
+      navigate('/login');
+    } else {
+      dispatch(orderBurger(order)).then((result) => {
+        if (orderBurger.fulfilled.match(result)) {
+          dispatch(resetConstructor());
+        }
+      });
+    }
   };
-  const closeOrderModal = () => {};
+
+  const closeOrderModal = () => {
+    dispatch(resetOrder());
+  };
 
   const price = useMemo(
     () =>
