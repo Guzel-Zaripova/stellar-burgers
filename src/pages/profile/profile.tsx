@@ -1,4 +1,4 @@
-import { selectUser } from '@slices';
+import { selectUser, updateUser } from '@slices';
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,8 +29,17 @@ export const Profile: FC = () => {
     formValue.email !== user?.email ||
     !!formValue.password;
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    try {
+      await dispatch(updateUser(formValue));
+      setFormValue((prevState) => ({
+        ...prevState,
+        password: ''
+      }));
+    } catch (error) {
+      console.error('Ошибка при обновлении профиля: ', error);
+    }
   };
 
   const handleCancel = (e: SyntheticEvent) => {

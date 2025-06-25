@@ -2,8 +2,11 @@ export {
   userSlice,
   selectUser,
   selectIsAuthChecked,
-  loginUser,
-  registerUser,
   authChecked,
+  registerUser,
+  loginUser,
+  updateUser,
+  getUser,
+  logoutUser,
   checkUserAuth
 } from './user-slice';

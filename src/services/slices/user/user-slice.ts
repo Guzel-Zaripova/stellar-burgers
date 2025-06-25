@@ -129,11 +129,9 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(logoutUser.pending, (state) => {
-      state.isInit = false;
       state.error = null;
     });
     builder.addCase(logoutUser.fulfilled, (state) => {
-      state.isInit = false;
       state.user = null;
     });
     builder.addCase(logoutUser.rejected, (state, action) => {
