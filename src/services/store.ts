@@ -4,7 +4,8 @@ import {
   BurgerConstructorSlice,
   userSlice,
   orderSlice,
-  feedSlice
+  feedSlice,
+  profileOrdersSlice
 } from '@slices';
 
 import {
@@ -18,7 +19,8 @@ const rootReducer = combineSlices(
   BurgerConstructorSlice,
   userSlice,
   orderSlice,
-  feedSlice
+  feedSlice,
+  profileOrdersSlice
 );
 
 const store = configureStore({
