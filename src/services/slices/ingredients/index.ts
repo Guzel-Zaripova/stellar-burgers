@@ -1,5 +1,6 @@
 export {
   ingredientsSlice,
   fetchIngredients,
-  ingredientsSelectors
+  selectIngredients,
+  selectIsLoading
 } from './ingredients-slice';

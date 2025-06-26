@@ -45,4 +45,5 @@ export const ingredientsSlice = createSlice({
   }
 });
 
-export const ingredientsSelectors = ingredientsSlice.selectors;
+export const { selectIngredients, selectIsLoading } =
+  ingredientsSlice.selectors;
