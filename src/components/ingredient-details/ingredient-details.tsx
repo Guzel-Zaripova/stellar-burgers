@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { useSelector } from 'react-redux';
 import { selectIngredients } from '@slices';
 import { useParams } from 'react-router-dom';
+import { useSelector } from '@store';
 
 export const IngredientDetails: FC = () => {
   const { id } = useParams<{ id: string }>();

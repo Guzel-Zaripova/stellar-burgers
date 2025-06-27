@@ -11,7 +11,7 @@ import {
   TRegisterData,
   updateUserApi
 } from '@api';
-import { AppDispatch } from 'src/services/store';
+import { AppDispatch } from 'src/services/store/store';
 
 interface UserState {
   isInit: boolean;

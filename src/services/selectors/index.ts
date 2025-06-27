@@ -1,4 +1,4 @@
-import { RootState } from '../store';
+import { RootState } from '../store/store';
 
 export const orderInfoSelector = (number: string) => (state: RootState) => {
   if (state.profileOrders.order.length) {

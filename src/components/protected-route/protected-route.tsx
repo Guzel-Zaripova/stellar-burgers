@@ -1,7 +1,7 @@
 import { selectIsAuthChecked, selectUser } from '@slices';
 import { Preloader } from '@ui';
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
+import { useSelector } from '@store';
 
 type ProtectedRouteProps = {
   isPublic?: boolean;

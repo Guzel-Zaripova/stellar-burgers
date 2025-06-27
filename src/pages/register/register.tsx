@@ -1,11 +1,10 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'src/services/store';
 import { RegisterUI } from '@ui-pages';
 import { registerUser } from '@slices';
+import { useDispatch } from '@store';
 
 export const Register: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

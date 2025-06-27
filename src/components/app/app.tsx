@@ -22,8 +22,7 @@ import styles from './app.module.css';
 
 import { AppHeader, Modal, ProtectedRoute } from '@components';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'src/services/store';
+import { useDispatch } from '@store';
 import { checkUserAuth, fetchIngredients } from '@slices';
 import {
   IngredientDetailsWrapper,
@@ -31,7 +30,7 @@ import {
 } from '../detail-page-wrapper';
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
