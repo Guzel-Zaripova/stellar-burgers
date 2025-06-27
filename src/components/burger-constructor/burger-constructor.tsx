@@ -3,13 +3,14 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '@store';
 import {
-  BurgerConstructorSelectors,
   orderBurger,
   resetOrder,
   resetConstructor,
   selectOrderModalData,
   selectOrderRequest,
-  selectUser
+  selectUser,
+  selectBunConstructor,
+  selectIngredientsConstructor
 } from '@slices';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,8 +18,8 @@ export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const constructorItems = {
-    bun: useSelector(BurgerConstructorSelectors.selectBun),
-    ingredients: useSelector(BurgerConstructorSelectors.selectIngredients)
+    bun: useSelector(selectBunConstructor),
+    ingredients: useSelector(selectIngredientsConstructor)
   };
   const orderRequest = useSelector(selectOrderRequest);
   const orderModalData = useSelector(selectOrderModalData);

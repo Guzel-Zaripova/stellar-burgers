@@ -4,5 +4,7 @@ export {
   removeIngredient,
   moveIngredient,
   resetConstructor,
-  BurgerConstructorSelectors
+  selectBunConstructor,
+  selectIngredientsConstructor,
+  selectBurgerConstructor
 } from './burgerConstructor-slice';

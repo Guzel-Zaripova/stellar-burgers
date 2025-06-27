@@ -44,8 +44,9 @@ export const BurgerConstructorSlice = createSlice({
     resetConstructor: () => initialState
   },
   selectors: {
-    selectBun: (state) => state.bun,
-    selectIngredients: (state) => state.ingredients
+    selectBunConstructor: (state) => state.bun,
+    selectIngredientsConstructor: (state) => state.ingredients,
+    selectBurgerConstructor: (state) => state
   }
 });
 
@@ -55,4 +56,8 @@ export const {
   moveIngredient,
   resetConstructor
 } = BurgerConstructorSlice.actions;
-export const BurgerConstructorSelectors = BurgerConstructorSlice.selectors;
+export const {
+  selectBunConstructor,
+  selectIngredientsConstructor,
+  selectBurgerConstructor
+} = BurgerConstructorSlice.selectors;
