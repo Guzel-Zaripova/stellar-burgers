@@ -1,4 +1,10 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  useMatch
+} from 'react-router-dom';
 import {
   ConstructorPage,
   Feed,
@@ -19,12 +25,19 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'src/services/store';
 import { checkUserAuth, fetchIngredients } from '@slices';
+import {
+  IngredientDetailsWrapper,
+  OrderInfoWrapper
+} from '../detail-page-wrapper';
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
+  const profileMatch = useMatch('/profile/orders/:number')?.params.number;
+  const feedMatch = useMatch('/feed/:number')?.params.number;
+  const orderNumber = profileMatch || feedMatch;
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -87,9 +100,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
-        <Route path='/profile/orders/:number' element={<OrderInfo />} />
+        <Route path='/feed/:number' element={<OrderInfoWrapper />} />
+        <Route path='/ingredients/:id' element={<IngredientDetailsWrapper />} />
+        <Route path='/profile/orders/:number' element={<OrderInfoWrapper />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 
@@ -98,7 +111,14 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title={'Детали заказа'} onClose={handleModalClose}>
+              <Modal
+                title={
+                  orderNumber
+                    ? `#${orderNumber.padStart(6, '0')}`
+                    : 'Детали заказа'
+                }
+                onClose={handleModalClose}
+              >
                 <OrderInfo />
               </Modal>
             }
@@ -115,7 +135,14 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title={'Детали заказа'} onClose={handleModalClose}>
+                <Modal
+                  title={
+                    orderNumber
+                      ? `#${orderNumber.padStart(6, '0')}`
+                      : 'Детали заказа'
+                  }
+                  onClose={handleModalClose}
+                >
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>
