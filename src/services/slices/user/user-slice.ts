@@ -13,7 +13,7 @@ import {
 } from '@api';
 import { AppDispatch } from 'src/services/store/store';
 
-interface UserState {
+export interface UserState {
   isInit: boolean;
   user: TUser | null;
   error: string | null;
