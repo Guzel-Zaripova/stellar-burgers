@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { USER_SLICE_NAME } from '../sliceNames';
 import { TUser } from '@utils-types';
 import { deleteCookie, getCookie, setCookie } from '@utils-cookie';
@@ -146,3 +146,4 @@ export const userSlice = createSlice({
 
 export const { selectUser, selectIsAuthChecked } = userSlice.selectors;
 export const { authChecked } = userSlice.actions;
+export const userSliceReducer = userSlice.reducer;
