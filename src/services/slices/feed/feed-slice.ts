@@ -3,7 +3,7 @@ import { FEED_SLICE_NAME } from '../sliceNames';
 import { TOrder } from '@utils-types';
 import { getFeedsApi } from '@api';
 
-interface FeedState {
+export interface FeedState {
   orders: TOrder[];
   total: number;
   totalToday: number;

@@ -3,7 +3,7 @@ import { PROFILE_ORDERS_SLICE_NAME } from '../sliceNames';
 import { TOrder } from '@utils-types';
 import { getOrdersApi } from '@api';
 
-interface ProfileOrdersState {
+export interface ProfileOrdersState {
   order: TOrder[];
   error: string | null;
 }

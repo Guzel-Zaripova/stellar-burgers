@@ -3,7 +3,7 @@ import { TOrder } from '@utils-types';
 import { ORDER_SLICE_NAME } from '../sliceNames';
 import { getOrderByNumberApi, orderBurgerApi } from '@api';
 
-interface OrderState {
+export interface OrderState {
   order: TOrder | null;
   orderModalData: TOrder | null;
   orderRequest: boolean;

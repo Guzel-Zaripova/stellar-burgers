@@ -8,5 +8,6 @@ export {
   updateUser,
   getUser,
   logoutUser,
-  checkUserAuth
+  checkUserAuth,
+  userSliceReducer
 } from './user-slice';

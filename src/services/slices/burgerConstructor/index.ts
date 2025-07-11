@@ -6,5 +6,6 @@ export {
   resetConstructor,
   selectBunConstructor,
   selectIngredientsConstructor,
-  selectBurgerConstructor
+  selectBurgerConstructor,
+  initialState
 } from './burgerConstructor-slice';
