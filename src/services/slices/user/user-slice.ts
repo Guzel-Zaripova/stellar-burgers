@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { USER_SLICE_NAME } from '../sliceNames';
 import { TUser } from '@utils-types';
 import { deleteCookie, getCookie, setCookie } from '@utils-cookie';
@@ -13,7 +13,7 @@ import {
 } from '@api';
 import { AppDispatch } from 'src/services/store/store';
 
-interface UserState {
+export interface UserState {
   isInit: boolean;
   user: TUser | null;
   error: string | null;
@@ -146,3 +146,4 @@ export const userSlice = createSlice({
 
 export const { selectUser, selectIsAuthChecked } = userSlice.selectors;
 export const { authChecked } = userSlice.actions;
+export const userSliceReducer = userSlice.reducer;
